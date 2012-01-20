@@ -142,8 +142,7 @@ PRODUCT_PACKAGES += DroidSSHd dropbear dropbearkey sftp-server scp ssh
 
 
 # CM9 apps
-PRODUCT_PACKAGES += AndroidTerm
-PRODUCT_PACKAGES += Trebuchet FileManager Torch
+PRODUCT_PACKAGES += Trebuchet CMStats
 PRODUCT_PACKAGES += DSPManager libcyanogen-dsp
 
 
