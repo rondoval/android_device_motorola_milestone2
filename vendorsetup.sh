@@ -21,4 +21,4 @@
 # function: add_lunch_combo generic-eng
 
 add_lunch_combo full_milestone2-eng
-
+add_lunch_combo full_milestone2-userdebug
