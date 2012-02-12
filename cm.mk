@@ -16,17 +16,15 @@
 
 $(call inherit-product, device/motorola/milestone2/full_milestone2.mk)
 
-# Inherit some common CM stuff.
-$(call inherit-product, vendor/cm/config/common_full_phone.mk)
-
-# Inherit some common CM stuff.
-$(call inherit-product, vendor/cm/config/gsm.mk)
+# Inherit some common CM9 stuff.
+$(call inherit-product-if-exists, vendor/cm/config/common_full_phone.mk)
+$(call inherit-product-if-exists, vendor/cm/config/gsm.mk)
 
 PRODUCT_NAME := cm_milestone2
 PRODUCT_BRAND := motorola
 PRODUCT_DEVICE := milestone2
 PRODUCT_MODEL := MotoA953
-PRODUCT_MANUFACTURER := motorola
+PRODUCT_MANUFACTURER := Motorola
 PRODUCT_SBF := 4.1-22
 PRODUCT_SFX := MILS2_U6
 
@@ -36,7 +34,7 @@ PRODUCT_RELEASE_NAME := Milestone2
 UTC_DATE := $(shell date +%s)
 DATE     := $(shell date +%Y%m%d)
 
-PRODUCT_BUILD_PROP_OVERRIDES := \
+PRODUCT_BUILD_PROP_OVERRIDES += \
 BUILD_ID=MILS2_U6_4.1-22 \
 BUILD_DISPLAY_ID="MILS2_U6_4.1-22" \
 PRODUCT_NAME=${PRODUCT_MODEL}_${PRODUCT_SFX} \
