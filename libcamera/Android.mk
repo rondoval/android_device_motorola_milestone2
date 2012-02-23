@@ -16,6 +16,7 @@ LOCAL_SHARED_LIBRARIES += \
     libmedia \
     libhardware \
     libcamera_client \
+    libui \
     libcamera \
 
 LOCAL_SHARED_LIBRARIES += libdl
