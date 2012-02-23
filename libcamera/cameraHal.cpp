@@ -108,8 +108,8 @@ void queue_buffer_hook(void *data, void *buffer) {
   struct legacy_camera_device *lcdev = (legacy_camera_device*) data;
   
   sp<android::IMemoryHeap> mHeap = lcdev->hwif->getPreviewHeap();
-  int offset = (int)buffer;//mHeap.getOffset();
   int size = lcdev->previewWidth*lcdev->previewHeight*3/2; // mHeap.getSize();
+  int offset = (int)buffer*size;
   
   CameraHAL_ProcessPreviewData(mHeap, offset, size, lcdev);
 }
@@ -457,8 +457,8 @@ int camera_set_preview_window(struct camera_device * device,
 
    android::CameraParameters params(lcdev->hwif->getParameters());
    params.getPreviewSize(&lcdev->previewWidth, &lcdev->previewHeight);
-   //int hal_pixel_format = HAL_PIXEL_FORMAT_YCrCb_420_SP;
-   int hal_pixel_format = HAL_PIXEL_FORMAT_YCbCr_422_I;
+   int hal_pixel_format = HAL_PIXEL_FORMAT_YCrCb_420_SP;
+   //int hal_pixel_format = HAL_PIXEL_FORMAT_YCbCr_422_I;
 
    const char *str_preview_format = params.getPreviewFormat();
    LOGD("%s: preview format %s", __FUNCTION__, str_preview_format);
@@ -632,8 +632,6 @@ int camera_set_parameters(struct camera_device * device, const char *params) {
    android::String8 s(params);
    android::CameraParameters p(s);
 
-//   CameraHAL_FixupParams(p);
-
    lcdev->hwif->setParameters(p);
    return NO_ERROR;
 }
@@ -643,7 +641,7 @@ char* camera_get_parameters(struct camera_device * device) {
    char *rc = NULL;
    LOGD("camera_get_parameters\n");
    android::CameraParameters params(lcdev->hwif->getParameters());
-   CameraHAL_FixupParams(params);
+//   CameraHAL_FixupParams(params);
    LOGD("camera_get_parameters: after calling hwif->getParameters()\n");
    rc = strdup((char *)params.flatten().string());
    LOGD("camera_get_parameters: returning rc:%p :%s\n",
