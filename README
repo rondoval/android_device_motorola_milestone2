@@ -1,9 +1,9 @@
-CyanogenMod 9 for Motorola Milestone2 (Android 4.0.3 AOSP)
+CyanogenMod 9 for Motorola Milestone2 (Android 4.0.3 CM9)
 
 
 Download:
 =========
-repo init -u git://github.com/tezet/android.git -b ics
+repo init -u git://github.com/rondoval/android.git -b ics
 repo sync
 
 Download RomManager:
@@ -12,8 +12,8 @@ cd vendor/cm && ./get-prebuilts
 
 Build:
 ======
-    export CYANOGEN_NIGHTLY=true
-    export CYANOGEN_RELEASE=true
+    export CM_NIGHTLY=true
+    export CM_RELEASE=true
 
 rm -rf out/target
 

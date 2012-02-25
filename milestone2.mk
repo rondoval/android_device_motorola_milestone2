@@ -49,11 +49,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.media.dec.vid.wmv.enabled=1 \
 	dalvik.vm.lockprof.threshold=500 \
 	ro.kernel.android.checkjni=0 \
+	dalvik.vm.checkjni=false \
 	dalvik.vm.dexopt-data-only=1 \
-	ro.vold.umsdirtyratio=20
+	ro.vold.umsdirtyratio=20 \
+	net.dns1=8.8.8.8 \
+	net.dns2=8.8.4.4
+
+# we have enough storage space to hold precise GC data
+PRODUCT_TAGS += dalvik.gc.type-precise
 
 DEVICE_PACKAGE_OVERLAYS += device/motorola/milestone2/overlay
 
+# Permissions
 PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
 	frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
@@ -68,6 +75,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml \
 
 # ICS sound
 PRODUCT_PACKAGES += \
@@ -82,7 +90,7 @@ PRODUCT_PACKAGES += libGLESv2 libEGL libGLESv1_CM
 PRODUCT_PACKAGES += gralloc.default hwcomposer.default
 
 # ICS Camera
-PRODUCT_PACKAGES += Camera overlay.omap3 camera.milestone2 libcamera libui
+PRODUCT_PACKAGES += Camera camera.milestone2 libcamera libui
 
 #Common packages (gingerbread/ics)
 PRODUCT_PACKAGES += \
@@ -137,6 +145,10 @@ PRODUCT_PACKAGES += libskiahw libOMX.TI.JPEG.Encoder libOMX.TI.JPEG.decoder
 
 PRODUCT_PACKAGES += e2fsck
 
+# Publish that we support the live wallpaper feature.
+PRODUCT_PACKAGES += LiveWallpapers LiveWallpapersPicker MagicSmokeWallpapers 
+PRODUCT_PACKAGES += VisualizationWallpapers librs_jni
+
 # Add DroidSSHd (dropbear) Management App - tpruvot/android_external_droidsshd @ github
 PRODUCT_PACKAGES += DroidSSHd dropbear dropbearkey sftp-server scp ssh
 
@@ -145,9 +157,6 @@ PRODUCT_PACKAGES += DroidSSHd dropbear dropbearkey sftp-server scp ssh
 PRODUCT_PACKAGES += Trebuchet CMStats
 PRODUCT_PACKAGES += DSPManager libcyanogen-dsp
 
-
-# we have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_COPY_FILES += \
 	device/motorola/milestone2/vold.fstab:system/etc/vold.fstab
@@ -165,25 +174,11 @@ PRODUCT_COPY_FILES += \
 # Blobs
 $(call inherit-product, device/motorola/milestone2/milestone2-blobs.mk)
 
-# Live wallpaper packages
-PRODUCT_PACKAGES += \
-        LiveWallpapers \
-        LiveWallpapersPicker \
-        MagicSmokeWallpapers \
-        VisualizationWallpapers
-
-# Publish that we support the live wallpaper feature.
-PRODUCT_COPY_FILES += \
-        packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml
-
-
 # ICS USB Packages
 PRODUCT_PACKAGES += com.android.future.usb.accessory
 
-PRODUCT_COPY_FILES += \
-    frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 
+######################################################################################################################################
 
 $(call inherit-product, build/target/product/full_base.mk)
 
@@ -192,4 +187,4 @@ PRODUCT_LOCALES += hdpi
 
 PRODUCT_NAME := full_milestone2
 PRODUCT_DEVICE := A953
-    
+

@@ -30,6 +30,10 @@ wifi.supplicant_scan_interval = 60
 # Use TI hotspot code
 wifi.hotspot.ti = 1
 
+# Wifi tether interface
+wifi.ap.interface = tiap0
+softap.interface = tiap0
+
 # The OpenGL ES API level that is natively supported by this device.
 # This is a 16.16 fixed point number
 ro.opengles.version = 131072
@@ -86,4 +90,6 @@ hwui.print_config=choice
 # This defines the min duration between two pointer event in ms
 ro.min_pointer_dur=10
 
-persist.sys.usb.config=mass_storage,adb
+# dalvik options
+dalvik.vm.verify-bytecode=false
+dalvik.vm.dexopt-flags=m=y,u=n

@@ -28,7 +28,7 @@ if [ -n "$CM_RELEASE" ]; then
   cat $DEVICE_TOP/updater-script-rel >> $REPACK/ota/META-INF/com/google/android/updater-script
   cp -f $VENDOR_TOP/boot-$CM_VARIANT.smg $REPACK/ota/boot.img 
   cp -f $VENDOR_TOP/devtree-$CM_VARIANT.smg $REPACK/ota/devtree.img
-  cp -f $VENDOR_TOP/logo-moto.raw $REPACK/ota/logo.img
+  cp -f $DEVICE_TOP/logo-google.raw $REPACK/ota/logo.img
 fi
 
 # Opensource init binary

@@ -46,7 +46,6 @@ TARGET_OMAP3 := true
 COMMON_GLOBAL_CFLAGS += -DTARGET_OMAP3 -DOMAP_COMPAT -DMOTOROLA_UIDS
 ARCH_ARM_HAVE_TLS_REGISTER := false
 
-
 # Wifi related defines
 BOARD_WLAN_DEVICE           := wl1271
 WPA_SUPPLICANT_VERSION      := VER_0_6_X
@@ -60,6 +59,14 @@ BOARD_SOFTAP_DEVICE         := wl1271
 AP_CONFIG_DRIVER_WILINK     := true
 WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/fw_tiwlan_ap.bin"
 WPA_SUPPL_APPROX_USE_RSSI   := true
+WPA_SUPPL_WITH_SIGNAL_POLL  := true
+# CM9
+WIFI_AP_DRIVER_MODULE_PATH  := "/system/lib/modules/tiap_drv.ko"
+WIFI_AP_DRIVER_MODULE_NAME  := tiap_drv
+WIFI_AP_FIRMWARE_LOADER     := wlan_ap_loader
+WIFI_AP_DRIVER_MODULE_ARG   := ""
+BOARD_HOSTAPD_DRIVER        := true
+BOARD_HOSTAPD_DRIVER_NAME   := wilink
 
 BOARD_USE_YUV422I_DEFAULT_COLORFORMAT := true
 BOARD_EGL_CFG := device/motorola/milestone2/egl.cfg
@@ -69,12 +76,15 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_MASS_STORAGE_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun0/file"
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun0/file"
 
+# Build options
 BOARD_BOOTIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x00280000)
 BOARD_RECOVERYIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x00500000)
 BOARD_SYSTEMIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x07500000)
 BOARD_USERDATAIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x04ac0000)
 BOARD_FLASH_BLOCK_SIZE := 131072
+TARGET_CUSTOM_RELEASETOOL := ./device/motorola/milestone2/releasetools/pre_squisher
 
+# OMX Stuff
 HARDWARE_OMX := true
 TARGET_USE_OMX_RECOVERY := true
 TARGET_USE_OMAP_COMPAT  := true
@@ -113,9 +123,6 @@ TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 BOARD_NEVER_UMOUNT_SYSTEM := true
 #TARGET_RECOVERY_UI_LIB := librecovery_ui_generic
 #TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_generic
-
-# Override cyanogen squisher to customize our update zip package
-TARGET_CUSTOM_RELEASETOOL := ./device/motorola/milestone2/releasetools/pre_squisher
 
 # Milestone2 need 2nd-init binary from motorola common
 TARGET_NEEDS_MOTOROLA_HIJACK := true
