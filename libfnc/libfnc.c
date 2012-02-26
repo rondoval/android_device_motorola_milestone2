@@ -16,6 +16,7 @@
 
 /*
  * Quarx (c) 2011 stud for libtpa.so, libtpa_core.so, libsmiledetect.so, libmotodbgutils.so 
+ * rondoval: libsmiledetect.so removed, since we've got the vendor proprietary version
  */
 
 #define LOG_TAG "libfnc"
@@ -97,17 +98,3 @@ return 0 ;
  LOGE(__func__);
 return 0 ;
 }
-
-//libsmiledetect.so
- int destroySmileDetectEngine()
-{
- LOGE(__func__);
-return 0 ;
-}
-
- int createSmileDetectEngine()
-{
- LOGE(__func__);
-return 0 ;
-}
-
