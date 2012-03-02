@@ -52,7 +52,6 @@ PRODUCT_COPY_FILES += \
 	device/motorola/milestone2/prebuilt/etc/init.d/03adbd:system/etc/init.d/03adbd \
 	device/motorola/milestone2/prebuilt/etc/init.d/04pdsbackup:system/etc/init.d/04pdsbackup \
 	device/motorola/milestone2/prebuilt/etc/init.d/05mountsd:system/etc/init.d/05mountsd \
-	device/motorola/milestone2/prebuilt/etc/init.d/07camera:system/etc/init.d/07camera \
 	device/motorola/milestone2/prebuilt/etc/init.d/90multitouch:system/etc/init.d/90multitouch \
 	device/motorola/milestone2/prebuilt/etc/profile:system/etc/profile \
 	device/motorola/milestone2/prebuilt/etc/sysctl.conf:system/etc/sysctl.conf \

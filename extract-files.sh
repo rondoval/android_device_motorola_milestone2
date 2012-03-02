@@ -45,8 +45,6 @@ adb pull /system/etc/fmc_init_1273.2.bts ../../../vendor/$MANUFACTURER/$DEVICE/p
 adb pull /system/etc/fmc_init_6450.2.bts ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/fmc_init_6450.2.bts
 adb pull /system/etc/fm_rx_init_1273.2.bts ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/fm_rx_init_1273.2.bts
 adb pull /system/etc/fm_rx_init_6450.2.bts ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/fm_rx_init_6450.2.bts
-adb pull /system/etc/mot_ise_imager_cfg.bin ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/mot_ise_imager_cfg.bin
-adb pull /system/etc/motorola/ap_flex_version.txt ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/ap_flex_version.txt
 adb pull /system/etc/motorola/bp_nvm_default/File_Audio ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/File_Audio
 adb pull /system/etc/motorola/bp_nvm_default/File_Audio1_AMR_WB ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/File_Audio1_AMR_WB
 adb pull /system/etc/motorola/bp_nvm_default/File_Audio2 ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/File_Audio2
@@ -75,6 +73,7 @@ adb pull /system/etc/motorola/comm_drv/PLMN_VERSION.txt ../../../vendor/$MANUFAC
 adb pull /system/etc/wifi/fw_tiwlan_ap.bin ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/fw_tiwlan_ap.bin
 adb pull /system/etc/wifi/fw_tiwlan_ap_rfmd.bin ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/fw_tiwlan_ap_rfmd.bin
 adb pull /system/etc/wifi/fw_wlan1271.bin ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/fw_wlan1271.bin
+adb pull /system/etc/wifi/fw_wlan1271_rfmd.bin ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/fw_wlan1271_rfmd.bin
 adb pull /system/framework/com.motorola.android.location.jar ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/com.motorola.android.location.jar
 adb pull /system/lib/dsp/720p_h264vdec_sn.dll64P ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/720p_h264vdec_sn.dll64P
 adb pull /system/lib/dsp/720p_h264venc_sn.dll64P ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/720p_h264venc_sn.dll64P
@@ -111,7 +110,6 @@ adb pull /system/lib/hw/gralloc.omap3.so ../../../vendor/$MANUFACTURER/$DEVICE/p
 adb pull /system/lib/libarcsoft.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libarcsoft.so
 adb pull /system/lib/libaudio.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libaudio.so
 adb pull /system/lib/libbattd.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libbattd.so
-adb pull /system/lib/libbayercamera.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libbayercamera.so
 adb pull /system/lib/libcaps.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libcaps.so
 adb pull /system/lib/libcryptoki.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libcryptoki.so
 adb pull /system/lib/libganril.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libganril.so
@@ -123,6 +121,7 @@ adb pull /system/lib/libmotdb.so ../../../vendor/$MANUFACTURER/$DEVICE/proprieta
 adb pull /system/lib/libmotodbgutils.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libmotodbgutils.so
 adb pull /system/lib/libmsl_interface.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libmsl_interface.so
 adb pull /system/lib/liboemcamera.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/liboemcamera.so
+adb pull /system/lib/libcamera.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libcamera.so
 adb pull /system/lib/libOMX.TI.720P.Decoder.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libOMX.TI.720P.Decoder.so
 adb pull /system/lib/libOMX.TI.720P.Encoder.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libOMX.TI.720P.Encoder.so
 adb pull /system/lib/libOMX.TI.h264.splt.Encoder.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libOMX.TI.h264.splt.Encoder.so
@@ -182,7 +181,8 @@ adb pull /system/media/audio/ringtones/Moto.ogg ../../../vendor/$MANUFACTURER/$D
 PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libarcsoft.so:obj/lib/libarcsoft.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libaudio.so:obj/lib/libaudio.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libsmiledetect.so:obj/lib/libsmiledetect.so
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libsmiledetect.so:obj/lib/libsmiledetect.so \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcamera.so:system/lib/libcamera.so
 
 # All the blobs necessary for milestone2
 PRODUCT_COPY_FILES += \\
@@ -207,8 +207,6 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fmc_init_6450.2.bts:system/etc/fmc_init_6450.2.bts \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fm_rx_init_1273.2.bts:system/etc/fm_rx_init_1273.2.bts \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fm_rx_init_6450.2.bts:system/etc/fm_rx_init_6450.2.bts \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/mot_ise_imager_cfg.bin:system/etc/mot_ise_imager_cfg.bin \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/ap_flex_version.txt:system/etc/motorola/ap_flex_version.txt \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/File_Audio:system/etc/motorola/bp_nvm_default/File_Audio \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/File_Audio1_AMR_WB:system/etc/motorola/bp_nvm_default/File_Audio1_AMR_WB \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/File_Audio2:system/etc/motorola/bp_nvm_default/File_Audio2 \\
@@ -237,6 +235,7 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_tiwlan_ap.bin:system/etc/wifi/fw_tiwlan_ap.bin \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_tiwlan_ap_rfmd.bin:system/etc/wifi/fw_tiwlan_ap_rfmd.bin \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_wlan1271.bin:system/etc/wifi/fw_wlan1271.bin \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_wlan1271_rfmd.bin:system/etc/wifi/fw_wlan1271_rfmd.bin \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/com.motorola.android.location.jar:system/framework/com.motorola.android.location.jar \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/720p_h264vdec_sn.dll64P:system/lib/dsp/720p_h264vdec_sn.dll64P \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/720p_h264venc_sn.dll64P:system/lib/dsp/720p_h264venc_sn.dll64P \\
@@ -273,7 +272,6 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libarcsoft.so:system/lib/libarcsoft.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libaudio.so:system/lib/libaudio.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libbattd.so:system/lib/libbattd.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libbayercamera.so:system/lib/libbayercamera.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcaps.so:system/lib/libcaps.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcryptoki.so:system/lib/libcryptoki.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libganril.so:system/lib/libganril.so \\
@@ -285,6 +283,7 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmotodbgutils.so:system/lib/libmotodbgutils.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmsl_interface.so:system/lib/libmsl_interface.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/liboemcamera.so:system/lib/liboemcamera.so \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcamera.so:system/lib/libcamera.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libOMX.TI.720P.Decoder.so:system/lib/libOMX.TI.720P.Decoder.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libOMX.TI.720P.Encoder.so:system/lib/libOMX.TI.720P.Encoder.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libOMX.TI.h264.splt.Encoder.so:system/lib/libOMX.TI.h264.splt.Encoder.so \\

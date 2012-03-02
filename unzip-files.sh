@@ -45,8 +45,6 @@ unzip -j -o ../../../${DEVICE}_update.zip system/etc/fmc_init_1273.2.bts -d ../.
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/fmc_init_6450.2.bts -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/fm_rx_init_1273.2.bts -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/fm_rx_init_6450.2.bts -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-unzip -j -o ../../../${DEVICE}_update.zip system/etc/mot_ise_imager_cfg.bin -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-unzip -j -o ../../../${DEVICE}_update.zip system/etc/motorola/ap_flex_version.txt -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/motorola/bp_nvm_default/File_Audio -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/motorola/bp_nvm_default/File_Audio1_AMR_WB -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/motorola/bp_nvm_default/File_Audio2 -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -75,6 +73,7 @@ unzip -j -o ../../../${DEVICE}_update.zip system/etc/motorola/comm_drv/PLMN_VERS
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/wifi/fw_tiwlan_ap.bin -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/wifi/fw_tiwlan_ap_rfmd.bin -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/etc/wifi/fw_wlan1271.bin -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+unzip -j -o ../../../${DEVICE}_update.zip system/etc/wifi/fw_wlan1271_rfmd.bin -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/framework/com.motorola.android.location.jar -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/dsp/720p_h264vdec_sn.dll64P -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/dsp/720p_h264venc_sn.dll64P -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -111,7 +110,6 @@ unzip -j -o ../../../${DEVICE}_update.zip system/lib/hw/gralloc.omap3.so -d ../.
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libarcsoft.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libaudio.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libbattd.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-unzip -j -o ../../../${DEVICE}_update.zip system/lib/libbayercamera.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libcaps.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libcryptoki.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libganril.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -123,6 +121,7 @@ unzip -j -o ../../../${DEVICE}_update.zip system/lib/libmotdb.so -d ../../../ven
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libmotodbgutils.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libmsl_interface.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/liboemcamera.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+unzip -j -o ../../../${DEVICE}_update.zip system/lib/libcamera.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libOMX.TI.720P.Decoder.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libOMX.TI.720P.Encoder.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/lib/libOMX.TI.h264.splt.Encoder.so -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -180,9 +179,10 @@ unzip -j -o ../../../${DEVICE}_update.zip system/media/audio/ringtones/Moto.ogg 
 
 # Proprietary libraries required to build open source libraries
 PRODUCT_COPY_FILES += \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libarcsoft.so:system/lib/libarcsoft.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libaudio.so:system/lib/libaudio.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libsmiledetect.so:system/lib/libsmiledetect.so
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libarcsoft.so:obj/lib/libarcsoft.so \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libaudio.so:obj/lib/libaudio.so \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libsmiledetect.so:obj/lib/libsmiledetect.so \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcamera.so:system/lib/libcamera.so
 
 # All the blobs necessary for milestone2
 PRODUCT_COPY_FILES += \\
@@ -207,8 +207,6 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fmc_init_6450.2.bts:system/etc/fmc_init_6450.2.bts \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fm_rx_init_1273.2.bts:system/etc/fm_rx_init_1273.2.bts \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fm_rx_init_6450.2.bts:system/etc/fm_rx_init_6450.2.bts \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/mot_ise_imager_cfg.bin:system/etc/mot_ise_imager_cfg.bin \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/ap_flex_version.txt:system/etc/motorola/ap_flex_version.txt \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/File_Audio:system/etc/motorola/bp_nvm_default/File_Audio \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/File_Audio1_AMR_WB:system/etc/motorola/bp_nvm_default/File_Audio1_AMR_WB \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/File_Audio2:system/etc/motorola/bp_nvm_default/File_Audio2 \\
@@ -237,6 +235,7 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_tiwlan_ap.bin:system/etc/wifi/fw_tiwlan_ap.bin \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_tiwlan_ap_rfmd.bin:system/etc/wifi/fw_tiwlan_ap_rfmd.bin \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_wlan1271.bin:system/etc/wifi/fw_wlan1271.bin \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/fw_wlan1271_rfmd.bin:system/etc/wifi/fw_wlan1271_rfmd.bin \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/com.motorola.android.location.jar:system/framework/com.motorola.android.location.jar \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/720p_h264vdec_sn.dll64P:system/lib/dsp/720p_h264vdec_sn.dll64P \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/720p_h264venc_sn.dll64P:system/lib/dsp/720p_h264venc_sn.dll64P \\
@@ -273,7 +272,6 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libarcsoft.so:system/lib/libarcsoft.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libaudio.so:system/lib/libaudio.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libbattd.so:system/lib/libbattd.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libbayercamera.so:system/lib/libbayercamera.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcaps.so:system/lib/libcaps.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcryptoki.so:system/lib/libcryptoki.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libganril.so:system/lib/libganril.so \\
@@ -285,6 +283,7 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmotodbgutils.so:system/lib/libmotodbgutils.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmsl_interface.so:system/lib/libmsl_interface.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/liboemcamera.so:system/lib/liboemcamera.so \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libcamera.so:system/lib/libcamera.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libOMX.TI.720P.Decoder.so:system/lib/libOMX.TI.720P.Decoder.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libOMX.TI.720P.Encoder.so:system/lib/libOMX.TI.720P.Encoder.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libOMX.TI.h264.splt.Encoder.so:system/lib/libOMX.TI.h264.splt.Encoder.so \\
