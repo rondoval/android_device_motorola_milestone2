@@ -22,7 +22,6 @@ MANUFACTURER=motorola
 mkdir -p ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/app/AudioEffectSettings.apk -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/app/CompassCalibrate.apk -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-unzip -j -o ../../../${DEVICE}_update.zip system/app/MotoPhonePortal.apk -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/bin/akmd2 -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/bin/ap_gain.bin -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 unzip -j -o ../../../${DEVICE}_update.zip system/bin/ap_gain_mmul.bin -d ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -325,8 +324,7 @@ PRODUCT_COPY_FILES += \\
 # All the apks necessary for milestone2
 PRODUCT_PACKAGES += \\
     AudioEffectSettings \\
-    CompassCalibrate \\
-    MotoPhonePortal
+    CompassCalibrate
 
 EOF
 
@@ -369,18 +367,6 @@ include \$(BUILD_PREBUILT)
 include \$(CLEAR_VARS)
 
 LOCAL_MODULE := CompassCalibrate
-LOCAL_SRC_FILES := \$(LOCAL_MODULE).apk
-LOCAL_MODULE_CLASS := APPS
-LOCAL_MODULE_TAGS := optional
-LOCAL_CERTIFICATE := PRESIGNED
-LOCAL_MODULE_SUFFIX := \$(COMMON_ANDROID_PACKAGE_SUFFIX)
-include \$(BUILD_PREBUILT)
-
-# MotoPhonePortal
-
-include \$(CLEAR_VARS)
-
-LOCAL_MODULE := MotoPhonePortal
 LOCAL_SRC_FILES := \$(LOCAL_MODULE).apk
 LOCAL_MODULE_CLASS := APPS
 LOCAL_MODULE_TAGS := optional
