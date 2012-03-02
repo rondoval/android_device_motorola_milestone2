@@ -1,4 +1,4 @@
-# Copyright (C) 2009 The Android Open Source Project
+# Copyright (C) 2012 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 # WARNING: This line must come *before* including the proprietary
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
+
 
 USE_CAMERA_STUB := false
 BOARD_USES_GENERIC_AUDIO := false
@@ -68,13 +69,16 @@ WIFI_AP_DRIVER_MODULE_ARG   := ""
 BOARD_HOSTAPD_DRIVER        := true
 BOARD_HOSTAPD_DRIVER_NAME   := wilink
 
-BOARD_USE_YUV422I_DEFAULT_COLORFORMAT := true
-BOARD_EGL_CFG := device/motorola/milestone2/egl.cfg
-DEFAULT_FB_NUM := 0
-BOARD_CUSTOM_USB_CONTROLLER := ../../device/motorola/milestone2/UsbController.cpp
+# Bluetooth
 BOARD_HAVE_BLUETOOTH := true
+TARGET_CUSTOM_BLUEDROID := ../../../device/motorola/milestone2/bluedroid.c
+
+# Usb Specific
+BOARD_CUSTOM_USB_CONTROLLER := ../../device/motorola/milestone2/UsbController.cpp
+BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 BOARD_MASS_STORAGE_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun0/file"
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun0/file"
+BOARD_MTP_DEVICE := "/dev/mtp"
 
 # Build options
 BOARD_BOOTIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x00280000)
@@ -91,61 +95,55 @@ TARGET_USE_OMAP_COMPAT  := true
 BUILD_WITH_TI_AUDIO := 1
 BUILD_PV_VIDEO_ENCODERS := 1
 
-BOARD_CAMERA_LIBRARIES := libcamera
-BOARD_USE_USB_MASS_STORAGE_SWITCH := true
-BOARD_NO_RGBX_8888 := true
-BOARD_USE_KINETO_COMPATIBILITY := true
-
-
-# Changes related to bootmenu
+# Bootmenu
 BOARD_USES_BOOTMENU := true
-
-# Recovery
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/motorola/milestone2/recovery_ui.c
-BOARD_HAS_NO_MISC_PARTITION := true
-BOARD_RECOVERY_IGNORE_BOOTABLES := true
-BOARD_HAS_SMALL_RECOVERY := true
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_HAS_NO_SELECT_BUTTON := true
-
 BOARD_SDCARD_DEVICE_PRIMARY   := /dev/block/mmcblk0p1
 BOARD_SDCARD_DEVICE_SECONDARY := /dev/block/mmcblk0
 BOARD_SDEXT_DEVICE  := /dev/block/mmcblk0p2
 BOARD_SYSTEM_DEVICE := /dev/block/mmcblk1p21
 BOARD_DATA_DEVICE   := /dev/block/mmcblk1p26
 
-# Reboot mode for reboot menu, but only handle recovery, not bootmenu :(
-TARGET_RECOVERY_PRE_COMMAND := "/system/bootmenu/script/reboot_command.sh"
-TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
-
-
+# Recovery
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+BOARD_RECOVERY_IGNORE_BOOTABLES := true
+BOARD_HAS_NO_MISC_PARTITION := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_HAS_SMALL_RECOVERY := true
+BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_NEVER_UMOUNT_SYSTEM := true
+BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/motorola/milestone2/recovery_keys.c
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext3
+TARGET_USERIMAGES_USE_EXT4 := false
 #TARGET_RECOVERY_UI_LIB := librecovery_ui_generic
 #TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_generic
+TARGET_RECOVERY_PRE_COMMAND := "/system/bootmenu/script/reboot_command.sh"
+TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 
 # Milestone2 need 2nd-init binary from motorola common
 TARGET_NEEDS_MOTOROLA_HIJACK := true
 
-BOARD_USE_CID_ROTATE_34 := true
 
+# Egl Specific
+USE_OPENGL_RENDERER := false
+BOARD_EGL_CFG := device/motorola/milestone2/egl.cfg
+DEFAULT_FB_NUM := 0
+BOARD_USE_YUV422I_DEFAULT_COLORFORMAT := true
+BOARD_NO_RGBX_8888 := true
 BOARD_USES_OVERLAY := true
-#USE_OPENGL_RENDERER := true
-#BOARD_USES_HGL := true
-BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext3
-TARGET_USERIMAGES_USE_EXT4 := false
+COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12
+COMMON_GLOBAL_CFLAGS += -DMISSING_GRALLOC_BUFFERS
 
-COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
+# Camera
+BOARD_USES_CAMERASHIM := true
+BOARD_CAMERA_MOTOROLA_COMPAT := true
+BOARD_CAMERA_LIBRARIES := libcamera
 
-
-# CM9
-BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/motorola/milestone2/recovery_keys.c
-
+# Other
+BOARD_USE_LEGACY_TOUCHSCREEN := true
 #ENABLE_SENSORS_COMPAT := true
 TARGET_PROXIMITY_SENSOR_LIMIT := 0x1F
-
 BOARD_USES_AUDIO_LEGACY := true
-BOARD_USE_LEGACY_TOUCHSCREEN := true
-
 TARGET_PROVIDES_LIBAUDIO := true
+BOARD_USE_KINETO_COMPATIBILITY := true
+BOARD_USE_CID_ROTATE_34 := true
 BOARD_USES_GPSSHIM := false
