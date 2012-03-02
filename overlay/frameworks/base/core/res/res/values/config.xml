@@ -43,20 +43,20 @@
 
     <!-- ICS: An Array of "[Connection name],[ConnectivityManager.TYPE_xxxx],
          [associated radio-type],[priority],[restoral-timer(ms)],[dependencyMet]  -->
-    <!-- the 5th element "resore-time" indicates the number of milliseconds to delay
+    <!-- the 5th element "restore-time" indicates the number of milliseconds to delay
          before automatically restore the default connection.  Set -1 if the connection
          does not require auto-restore. -->
     <!-- the 6th element indicates boot-time dependency-met value. -->
 
     <string-array translatable="false" name="networkAttributes">
-        <item>"wifi,1,1,1,-1,true"</item>
-        <item>"mobile,0,0,0,-1,true"</item>
+        <item>"wifi,1,1,2,-1,true"</item>
+        <item>"mobile,0,0,1,-1,true"</item>
         <item>"mobile_mms,2,0,2,60000,true"</item>
-        <item>"mobile_supl,3,0,2,60000,true"</item>
-        <item>"mobile_dun,4,0,2,60000,true"</item>
-        <item>"mobile_hipri,5,0,3,60000,true"</item>
+        <item>"mobile_supl,3,0,3,60000,true"</item>
+        <item>"mobile_dun,4,0,3,60000,true"</item>
+        <item>"mobile_hipri,5,0,4,60000,true"</item>
         <item>"mobile_bluetooth,7,7,1,-1,true"</item>
-        <item>"wifi_p2p,13,1,0,-1,true"</item>
+        <item>"wifi_p2p,13,1,0,-1,false"</item>
      </string-array>
 
     <!-- This string array should be overridden by the device to present a list of radio
@@ -78,6 +78,8 @@
         <item>0</item>
         <item>1</item>
         <item>4</item>
+        <item>5</item>
+        <item>7</item>
     </integer-array>
 
     <!-- List of regexpressions describing the interface (if any) that represent tetherable
@@ -91,8 +93,19 @@
          Wifi interfaces.  If the device doesn't want to support tethering over Wifi this
          should be empty.  An example would be "softap.*" -->
     <string-array translatable="false" name="config_tether_wifi_regexs">
-        <item>tiap\\d</item>
+        <item>tiap0</item>
     </string-array>
+
+    <!-- List of regexpressions describing the interface (if any) that represent tetherable
+         bluetooth interfaces.  If the device doesn't want to support tethering over bluetooth this
+         should be empty. -->
+    <string-array translatable="false" name="config_tether_bluetooth_regexs">
+        <item>bnep0</item>
+    </string-array>
+
+    <!-- Max number of Bluetooth tethering connections allowed. If this is
+         updated config_tether_dhcp_range has to be updated appropriately. -->
+    <integer translateable="false" name="config_max_pan_devices">5</integer>
 
     <!-- Regex array of allowable upstream ifaces for tethering - for example if you want
          tethering on a new interface called "foo2" add <item>"foo\\d"</item> to the array
@@ -255,7 +268,6 @@ ICS -->
         <item>8000</item>
      </integer-array>
 
-
     <!-- Array of output values for LCD backlight corresponding to the LUX values
          in the config_autoBrightnessLevels array.  This array should have size one greater
          than the size of the config_autoBrightnessLevels array.
@@ -303,6 +315,18 @@ ICS -->
     <!-- Enables swipe versus poly-finger touch disambiguation in the KeyboardView -->
     <bool name="config_swipeDisambiguation">true</bool>
 
+    <!-- Enables special filtering code in the framework for raw touch events
+         from the touch driver.  This code exists for one particular device,
+         and should not be enabled for any others.  Hopefully in the future
+         it will be removed when the lower-level touch driver generates better
+         data. 
+    <bool name="config_filterTouchEvents">false</bool>
+ICS -->
+    <!-- Enables special filtering code in the framework for raw touch events
+         from the touch driver. This code exists for one particular device,
+         and should not be enabled for any others. 
+    <bool name="config_filterJumpyTouchEvents">false</bool>
+ICS -->
     <!-- Component name of the default wallpaper. This will be ImageWallpaper if not
          specified -->
     <string name="default_wallpaper_component">@null</string>
@@ -319,6 +343,10 @@ ICS -->
     <!-- The default reduced-datarate notification mask -->
     <!-- 2 means give warning -->
     <integer name="config_datause_notification_type">2</integer>
+    
+    <string-array name="config_vendorServices">
+        <item>/system/framework/com.motorola.android.location.jar:com.android.server.LocationProxyService</item>
+    </string-array>
 
     <bool name="config_animateScreenLights">false</bool>
 

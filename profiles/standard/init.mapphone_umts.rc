@@ -8,8 +8,6 @@ on fs
     mount ext3 /dev/block/mmcblk1p21 /system ro remount
     mount ext3 /dev/block/mmcblk1p24 /cache nosuid nodev noatime nodiratime barrier=0
     mount ext3 /dev/block/mmcblk1p26 /data nosuid nodev noatime nodiratime barrier=0
-    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime barrier=1
-
 
 on post-fs
     log "== mapphone: on post-fs -------------------"
@@ -131,9 +129,6 @@ on post-fs-data
     chown system system /data/tpapi/etc
     chown system system /data/tpapi/etc/tpa
     chown system system /data/tpapi/etc/tpa/persistent
-
-    # copy hostapd configuration
-    copy /system/etc/wifi/softap/hostapd.conf /data/misc/wifi/hostapd.conf
 
     setprop vold.post_fs_data_done 1
 
@@ -321,18 +316,24 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/mi
     socket wpa_tiwlan0 dgram 660 wifi wifi
     disabled
     oneshot
-service wlan_ap_loader /system/bin/logwrapper /system/bin/tiap_loader -f /system/etc/wifi/fw_tiwlan_ap.bin -i /system/etc/wifi/tiwlan_ap.ini -e /pds/wifi/nvs_map.bin
+service wlan_ap_loader /system/bin/tiap_loader -f /system/etc/wifi/fw_tiwlan_ap.bin -i /system/etc/wifi/tiwlan_ap.ini -e /pds/wifi/nvs_map.bin
     disabled
     oneshot
-service hostapd /system/bin/logwrapper /system/bin/hostap -d /data/misc/wifi/hostapd.conf
-    class main
-    disabled
-    oneshot
+
 service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
 service iprenew_tiwlan0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+service iprenew_bnep0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
@@ -354,15 +355,3 @@ service locDrv /system/bin/brcm_guci_drv -config /system/etc/gpsconfig.xml
     class late_start
     user radio
     group radio inet sdcard_rw
-
-service motolocation /system/bin/sh /system/bin/am startservice -n com.motorola.android.location/com.motorola.android.locationproxy.LocationProxyService
-    class late_start
-    disabled
-    oneshot
-
-service fmradio /system/bin/fmradioserver
-    class late_start
-    disabled
-    user system
-    group bluetooth net_bt_admin net_raw net_admin misc
-

@@ -9,11 +9,6 @@ VENDOR_TOP=$ANDROID_BUILD_TOP/vendor/motorola/milestone2
 # Delete unwanted apps
 rm -f $REPACK/ota/system/app/RomManager.apk
 
-# these scripts are not required or bad
-rm -f $REPACK/ota/system/bin/sysinit
-rm -f $REPACK/ota/system/etc/init.d/03firstboot
-rm -f $REPACK/ota/system/etc/init.d/04modules
-
 # add an empty script to prevent logcat errors (moto init.rc)
 touch $REPACK/ota/system/bin/mount_ext3.sh
 chmod +x $REPACK/ota/system/bin/mount_ext3.sh
@@ -46,4 +41,3 @@ cp -f $DEVICE_OUT/utilities/lsof $REPACK/ota/system/bootmenu/binary/lsof
 
 # ril fix
 cp -f $REPACK/ota/system/lib/hw/audio.a2dp.default.so $REPACK/ota/system/lib/liba2dp.so
-

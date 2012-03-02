@@ -34,22 +34,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.media.capture.flash=led \
 	ro.media.capture.classification=classE \
 	ro.media.capture.useDFR=1 \
-	ro.media.capture.torchIntensity=45 \
-	ro.media.camera.focal=3564.0,3564.0 \
-	ro.media.camera.principal=1632.0,1224.0 \
-	ro.media.camera.skew=0.0 \
-	ro.media.camera.distortion=0.0,0.0,0.0,0.0,0.0 \
-	ro.media.camera.calresolution=3264,2448 \
-	ro.com.google.locationfeatures=1 \
 	ro.telephony.call_ring.multiple=false \
 	ro.telephony.call_ring.delay=3000 \
+	ro.com.google.locationfeatures=1 \
 	ro.url.safetylegal=http://www.motorola.com/staticfiles/Support/legal/?model=A953 \
-	ro.media.dec.jpeg.memcap=20000000 \
 	ro.media.dec.aud.wma.enabled=1 \
 	ro.media.dec.vid.wmv.enabled=1 \
-	dalvik.vm.lockprof.threshold=500 \
 	ro.kernel.android.checkjni=0 \
 	dalvik.vm.checkjni=false \
+	ro.media.dec.jpeg.memcap=20000000 \
+	dalvik.vm.lockprof.threshold=500 \
 	dalvik.vm.dexopt-data-only=1 \
 	ro.vold.umsdirtyratio=20 \
 	net.dns1=8.8.8.8 \
@@ -92,56 +86,25 @@ PRODUCT_PACKAGES += gralloc.default hwcomposer.default
 # ICS Camera
 PRODUCT_PACKAGES += Camera camera.milestone2 libcamera libui
 
-#Common packages (gingerbread/ics)
-PRODUCT_PACKAGES += \
-	librs_jni \
-	tiwlan.ini \
-	dspexec \
-	libbridge \
-	wlan_cu \
-	libtiOsLib \
-	wlan_loader \
-	libCustomWifi \
-	wpa_supplicant.conf \
-	dhcpcd.conf \
-	libOMX.TI.AAC.encode \
-	libOMX.TI.AAC.decode \
-	libOMX.TI.AMR.decode \
-	libOMX.TI.AMR.encode \
-	libOMX.TI.WBAMR.encode \
-	libOMX.TI.MP3.decode \
-	libOMX.TI.WBAMR.decode \
-	libOMX.TI.WMA.decode \
-	libOMX.TI.Video.Decoder \
-	libOMX.TI.Video.encoder \
-	libOMX.TI.VPP \
-	libVendor_ti_omx \
-	libLCML \
-	libOMX_Core \
-	sensors.milestone2 \
-	lights.milestone2 \
-	libfnc \
-	iwmulticall \
-	hostap \
-	hostapd.conf \
-	libhostapdcli \
-	bootmenu \
-	utility_lsof \
-	static_busybox \
-	hijack_boot_2nd-init \
-	Usb \
-	ssh \
-	Superuser \
-	su \
-	M2Parts \
-	CMSettings
 
-PRODUCT_PACKAGES += \
-	qwerty.kcm
+# Wifi packages
+PRODUCT_PACKAGES += iwmulticall hostap wlan_loader wlan_cu wpa_supplicant
+PRODUCT_PACKAGES += libhostapdcli libCustomWifi libwpa_client libtiOsLib
+PRODUCT_PACKAGES += tiwlan.ini dhcpcd.conf wpa_supplicant.conf hostapd.conf
+PRODUCT_PACKAGES += tiap_loader tiap_cu ndc
 
 # for jpeg hw encoder/decoder
-PRODUCT_PACKAGES += libskiahw libOMX.TI.JPEG.Encoder libOMX.TI.JPEG.decoder
+PRODUCT_PACKAGES += libskiahw libOMX.TI.JPEG.Encoder libOMX.TI.JPEG.decoder libstagefrighthw
 
+# OMX stuff
+PRODUCT_PACKAGES += dspexec libbridge libLCML libOMX_Core
+PRODUCT_PACKAGES += libOMX.TI.AAC.encode libOMX.TI.AAC.decode libOMX.TI.AMR.decode
+PRODUCT_PACKAGES += libOMX.TI.WBAMR.encode libOMX.TI.MP3.decode libOMX.TI.WBAMR.decode
+PRODUCT_PACKAGES += libOMX.TI.WMA.decode libOMX.TI.Video.Decoder libOMX.TI.Video.encoder
+PRODUCT_PACKAGES += libOMX.TI.VPP libOMX.TI.AMR.encode libVendor_ti_omx
+
+# Milestone2 stuff
+PRODUCT_PACKAGES += libfnc M2Parts Usb
 
 PRODUCT_PACKAGES += e2fsck
 
@@ -152,14 +115,10 @@ PRODUCT_PACKAGES += VisualizationWallpapers librs_jni
 # Add DroidSSHd (dropbear) Management App - tpruvot/android_external_droidsshd @ github
 PRODUCT_PACKAGES += DroidSSHd dropbear dropbearkey sftp-server scp ssh
 
-
 # CM9 apps
 PRODUCT_PACKAGES += Trebuchet CMStats
 PRODUCT_PACKAGES += DSPManager libcyanogen-dsp
 
-
-PRODUCT_COPY_FILES += \
-	device/motorola/milestone2/vold.fstab:system/etc/vold.fstab
 
 # copy all others kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell test -d device/motorola/milestone2/modules && \
@@ -171,11 +130,9 @@ LOCAL_KERNEL := device/motorola/milestone2/kernel
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel
 
-# Blobs
+# Blobs and bootmenu stuff
 $(call inherit-product, device/motorola/milestone2/milestone2-blobs.mk)
-
-# ICS USB Packages
-PRODUCT_PACKAGES += com.android.future.usb.accessory
+#$(call inherit-product, device/motorola/milestone2/bootmenu/bootmenu.mk)
 
 
 ######################################################################################################################################
@@ -188,3 +145,19 @@ PRODUCT_LOCALES += hdpi
 PRODUCT_NAME := full_milestone2
 PRODUCT_DEVICE := A953
 
+#Common packages (gingerbread/ics)
+PRODUCT_PACKAGES += \
+	librs_jni \
+	bootmenu \
+	utility_lsof \
+	static_busybox \
+	hijack_boot_2nd-init \
+	ssh \
+	Superuser \
+	su
+
+PRODUCT_PACKAGES += \
+	qwerty.kcm
+
+PRODUCT_COPY_FILES += \
+	device/motorola/milestone2/vold.fstab:system/etc/vold.fstab
