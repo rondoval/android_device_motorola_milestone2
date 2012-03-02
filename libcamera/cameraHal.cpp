@@ -30,6 +30,7 @@
  */
 
 #define LOG_TAG "CameraHAL"
+//#define LOG_NDEBUG 0
 
 #include "CameraHardwareInterface.h"
 #include <hardware/camera.h>
@@ -246,11 +247,11 @@ void CameraHAL_ProcessPreviewData(char *frame, size_t size, legacy_camera_device
                     LOGE("%s: could not lock gralloc buffer", __FUNCTION__);
                 }
             } else {
-                LOGE("%s: ERROR locking the buffer\n", __FUNCTION__);
+                LOGE("%s: ERROR locking the buffer", __FUNCTION__);
                 lcdev->window->cancel_buffer(lcdev->window, bufHandle);
             }
          } else {
-            LOGE("%s: ERROR dequeueing the buffer\n", __FUNCTION__);
+            LOGE("%s: ERROR dequeueing the buffer", __FUNCTION__);
          }
     }
 }
@@ -262,8 +263,7 @@ void queue_buffer_hook(void *data, void *buffer, size_t size) {
   }
 }
 
-void CameraHAL_HandlePreviewData(const sp<IMemory>& dataPtr, void* user)
-{
+void CameraHAL_HandlePreviewData(const sp<IMemory>& dataPtr, void* user) {
    LOGV("%s", __FUNCTION__);
    if (user != NULL) {
        struct legacy_camera_device *lcdev = (struct legacy_camera_device *) user;
@@ -275,16 +275,14 @@ void CameraHAL_HandlePreviewData(const sp<IMemory>& dataPtr, void* user)
   }
 }
 
-camera_memory_t* CameraHAL_GenClientData(const sp<IMemory> &dataPtr,
-                        void *user)
-{
+camera_memory_t* CameraHAL_GenClientData(const sp<IMemory> &dataPtr, void *user) {
    ssize_t          offset;
    size_t           size;
    camera_memory_t *clientData = NULL;
    struct legacy_camera_device *lcdev = (struct legacy_camera_device *) user;
    sp<IMemoryHeap> mHeap = dataPtr->getMemory(&offset, &size);
 
-   LOGV("CameraHAL_GenClientData: offset:%#x size:%#x base:%p\n",
+   LOGV("CameraHAL_GenClientData: offset:%#x size:%#x base:%p",
         (unsigned)offset, size, mHeap != NULL ? mHeap->base() : 0);
 
    LOGV("%s: #1", __FUNCTION__);
@@ -294,18 +292,16 @@ camera_memory_t* CameraHAL_GenClientData(const sp<IMemory> &dataPtr,
       memcpy(clientData->data, (char *)(mHeap->base()) + offset, size);
    LOGV("%s: #3", __FUNCTION__);
    } else {
-      LOGV("CameraHAL_GenClientData: ERROR allocating memory from client\n");
+      LOGV("CameraHAL_GenClientData: ERROR allocating memory from client");
    }
    return clientData;
 }
 
-void CameraHAL_DataCb(int32_t msg_type, const sp<IMemory>& dataPtr,
-                 void *user)
-{
+void CameraHAL_DataCb(int32_t msg_type, const sp<IMemory>& dataPtr, void *user) {
    struct legacy_camera_device *lcdev = (struct legacy_camera_device *) user;
 
-   LOGV("CameraHAL_DataCb: msg_type:%d user:%p\n", msg_type, user);
-   
+   LOGV("CameraHAL_DataCb: msg_type:%d user:%p", msg_type, user);
+
    if (lcdev->data_callback != NULL && lcdev->request_memory != NULL) {
       /* Make sure any pre-existing heap is released */
       if (lcdev->clientData != NULL) {
@@ -314,34 +310,32 @@ void CameraHAL_DataCb(int32_t msg_type, const sp<IMemory>& dataPtr,
       }
       lcdev->clientData = CameraHAL_GenClientData(dataPtr, lcdev);
       if (lcdev->clientData != NULL) {
-         LOGV("CameraHAL_DataCb: Posting data to client\n");
+         LOGV("CameraHAL_DataCb: Posting data to client");
          lcdev->data_callback(msg_type, lcdev->clientData, 0, NULL, lcdev->user);
       }
    }
 
    if (msg_type == CAMERA_MSG_PREVIEW_FRAME && lcdev->overlay == NULL) {
-      LOGV("CameraHAL_DataCb: preview size = %dx%d\n", lcdev->previewWidth, lcdev->previewHeight);
+      LOGV("CameraHAL_DataCb: preview size = %dx%d", lcdev->previewWidth, lcdev->previewHeight);
       CameraHAL_HandlePreviewData(dataPtr, lcdev);
    }
 }
 
-void CameraHAL_DataTSCb(nsecs_t timestamp, int32_t msg_type,
-                   const sp<IMemory>& dataPtr, void *user)
-{
+void CameraHAL_DataTSCb(nsecs_t timestamp, int32_t msg_type, const sp<IMemory>& dataPtr, void *user) {
    struct legacy_camera_device *lcdev = (struct legacy_camera_device *) user;
 
-   LOGD("CameraHAL_DataTSCb: timestamp:%lld msg_type:%d user:%p\n",
+   LOGV("CameraHAL_DataTSCb: timestamp:%lld msg_type:%d user:%p",
         timestamp /1000, msg_type, user);
 
    if (lcdev->data_callback != NULL && lcdev->request_memory != NULL) {
       camera_memory_t *clientData = CameraHAL_GenClientData(dataPtr, lcdev);
       if (clientData != NULL) {
-         LOGV("CameraHAL_DataTSCb: Posting data to client timestamp:%lld\n",
+         LOGV("CameraHAL_DataTSCb: Posting data to client timestamp:%lld",
               systemTime());
          lcdev->data_timestamp_callback(timestamp, msg_type, clientData, 0, lcdev->user);
          lcdev->hwif->releaseRecordingFrame(dataPtr);
       } else {
-         LOGD("CameraHAL_DataTSCb: ERROR allocating memory from client\n");
+         LOGV("CameraHAL_DataTSCb: ERROR allocating memory from client");
       }
    }
 }
@@ -349,21 +343,20 @@ void CameraHAL_DataTSCb(nsecs_t timestamp, int32_t msg_type,
 /* HAL helper functions. */
 void CameraHAL_NotifyCb(int32_t msg_type, int32_t ext1, int32_t ext2, void *user) {
    struct legacy_camera_device *lcdev = (struct legacy_camera_device *) user;
-   
+
    if (NULL == lcdev) {
      return;
    }
-   
-   LOGV("%s: msg_type:%d ext1:%d ext2:%d user:%p\n", __FUNCTION__, msg_type, ext1, ext2, user);
+
+   LOGV("%s: msg_type:%d ext1:%d ext2:%d user:%p", __FUNCTION__, msg_type, ext1, ext2, user);
    if (lcdev->notify_callback != NULL) {
       lcdev->notify_callback(msg_type, ext1, ext2, lcdev->user);
    }
 }
 
-int CameraHAL_GetCam_Info(int camera_id, struct camera_info *info)
-{
+int CameraHAL_GetCam_Info(int camera_id, struct camera_info *info) {
+   LOGV("%s", __FUNCTION__);
    int rv = 0;
-   LOGV("CameraHAL_GetCam_Info:");
 
    CameraInfo cam_info;
    HAL_getCameraInfo(camera_id, &cam_info);
@@ -372,8 +365,7 @@ int CameraHAL_GetCam_Info(int camera_id, struct camera_info *info)
 //   info->orientation = cam_info.orientation;
    info->orientation = 90; // Milestone2 camera returns 0, but then picture is rotated
 
-   LOGD("%s: id:%i faceing:%i orientation: %i", __FUNCTION__,
-        camera_id, info->facing, info->orientation);
+   LOGD("%s: id:%i faceing:%i orientation: %i", __FUNCTION__, camera_id, info->facing, info->orientation);
 
    return rv;
 }
@@ -392,9 +384,9 @@ int camera_set_preview_window(struct camera_device * device, struct preview_stre
   const int kBufferCount = 4;
   struct legacy_camera_device *lcdev = to_lcdev(device);
 
-  LOGV("camera_set_preview_window : Window :%p\n", window);
+  LOGV("camera_set_preview_window : Window :%p", window);
   if (device == NULL) {
-      LOGE("camera_set_preview_window : Invalid device.\n");
+      LOGE("camera_set_preview_window : Invalid device.");
       return -EINVAL;
   }
 
@@ -405,11 +397,12 @@ int camera_set_preview_window(struct camera_device * device, struct preview_stre
   lcdev->window = window;
 
   if (!window) {
+      // doesn't it mean something?
       LOGD("%s: window is NULL", __FUNCTION__);
       return -EINVAL;
   }
 
-  LOGD("%s : OK window is %p", __FUNCTION__, window);
+  LOGV("%s : OK window is %p", __FUNCTION__, window);
 
   if (!lcdev->gralloc) {
       hw_module_t const* module;
@@ -422,20 +415,19 @@ int camera_set_preview_window(struct camera_device * device, struct preview_stre
   }
 
 
-  LOGD("%s: OK on loading gralloc HAL", __FUNCTION__);
+  LOGV("%s: OK on loading gralloc HAL", __FUNCTION__);
   int min_bufs = -1;
   if (window->get_min_undequeued_buffer_count(window, &min_bufs)) {
       LOGE("%s: could not retrieve min undequeued buffer count", __FUNCTION__);
       return -1;
   }
-  LOGD("%s: OK get_min_undequeued_buffer_count", __FUNCTION__);
 
-  LOGD("%s: bufs:%i", __FUNCTION__, min_bufs);
+  LOGV("%s: bufs:%i", __FUNCTION__, min_bufs);
   if (min_bufs >= kBufferCount) {
       LOGE("%s: min undequeued buffer count %i is too high (expecting at most %i)", __FUNCTION__, min_bufs, kBufferCount - 1);
   }
 
-  LOGD("%s: setting buffer count to %i", __FUNCTION__, kBufferCount);
+  LOGV("%s: setting buffer count to %i", __FUNCTION__, kBufferCount);
   if (window->set_buffer_count(window, kBufferCount)) {
       LOGE("%s: could not set buffer count", __FUNCTION__);
       return -1;
@@ -476,8 +468,7 @@ void camera_set_callbacks(struct camera_device * device,
                       camera_request_memory get_memory, void *user)
 {
    struct legacy_camera_device *lcdev = to_lcdev(device);
-   LOGV("camera_set_callbacks: notify_cb: %p, data_cb: %p "
-        "data_cb_timestamp: %p, get_memory: %p, user :%p",
+   LOGV("camera_set_callbacks: notify_cb: %p, data_cb: %p data_cb_timestamp: %p, get_memory: %p, user :%p",
         notify_cb, data_cb, data_cb_timestamp, get_memory, user);
 
    lcdev->notify_callback = notify_cb;
@@ -486,8 +477,7 @@ void camera_set_callbacks(struct camera_device * device,
    lcdev->request_memory = get_memory;
    lcdev->user = user;
 
-   lcdev->hwif->setCallbacks(CameraHAL_NotifyCb, CameraHAL_DataCb,
-                         CameraHAL_DataTSCb, (void *) lcdev);
+   lcdev->hwif->setCallbacks(CameraHAL_NotifyCb, CameraHAL_DataCb, CameraHAL_DataTSCb, (void *) lcdev);
 }
 
 void camera_enable_msg_type(struct camera_device * device, int32_t msg_type) {
@@ -579,7 +569,6 @@ int camera_cancel_auto_focus(struct camera_device * device) {
 int camera_take_picture(struct camera_device * device) {
    struct legacy_camera_device *lcdev = to_lcdev(device);
    LOGV("camera_take_picture:\n");
-
    lcdev->hwif->takePicture();
    return NO_ERROR;
 }
@@ -596,7 +585,6 @@ int camera_set_parameters(struct camera_device * device, const char *params) {
    LOGD("camera_set_parameters: %s\n", params);
    String8 s(params);
    CameraParameters p(s);
-
    lcdev->hwif->setParameters(p);
    return NO_ERROR;
 }
