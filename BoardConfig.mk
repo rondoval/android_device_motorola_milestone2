@@ -24,8 +24,6 @@
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
 
-
-USE_CAMERA_STUB := false
 BOARD_USES_GENERIC_AUDIO := false
 
 TARGET_NO_RECOVERY := false
@@ -124,7 +122,7 @@ TARGET_NEEDS_MOTOROLA_HIJACK := true
 
 
 # Egl Specific
-USE_OPENGL_RENDERER := false
+USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/motorola/milestone2/egl.cfg
 DEFAULT_FB_NUM := 0
 BOARD_USE_YUV422I_DEFAULT_COLORFORMAT := true
@@ -134,6 +132,7 @@ COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_
 COMMON_GLOBAL_CFLAGS += -DMISSING_GRALLOC_BUFFERS
 
 # Camera
+USE_CAMERA_STUB := false
 BOARD_USES_CAMERASHIM := true
 BOARD_CAMERA_MOTOROLA_COMPAT := true
 BOARD_CAMERA_LIBRARIES := libcamera
